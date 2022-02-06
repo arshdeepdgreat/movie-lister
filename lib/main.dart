@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:movie_listing_app/boxes.dart';
+import 'package:movie_listing_app/model/movie.dart';
 import 'package:movie_listing_app/screens/movie_list.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(MovieAdapter());
+  await Hive.openBox<movie>()
   runApp(const MyApp());
 }
 
