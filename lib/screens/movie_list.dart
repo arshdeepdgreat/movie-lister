@@ -1,10 +1,9 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movie_listing_app/boxes.dart';
 import 'package:movie_listing_app/model/movie.dart';
 import 'package:movie_listing_app/screens/add_movie.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class Movielist extends StatefulWidget {
   final String title;
@@ -15,6 +14,9 @@ class Movielist extends StatefulWidget {
 }
 
 class _MovielistState extends State<Movielist> {
+  final _key1=GlobalKey();
+  final _key2=GlobalKey();
+
   @override
   void dispose() {
     Hive.close();
@@ -25,6 +27,14 @@ class _MovielistState extends State<Movielist> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed:(){
+            setState(() {
+              ShowCaseWidget.of(context)!.startShowCase([_key1]);
+            });
+          } ,
+          icon: const Icon (Icons.help_rounded),
+        ),
         title: Text(widget.title),
         centerTitle: true,
       ),
@@ -73,14 +83,27 @@ class _MovielistState extends State<Movielist> {
               });
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        tooltip: "Add movie",
-        child: Icon(Icons.add),
-        onPressed: () => {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddMovie()))
-        },
-      ),
+      floatingActionButton:FloatingActionButton(
+          tooltip: "Add movie",
+          child: Showcase(
+            key: _key1,
+              description: "Click here to add a new movie",
+              shapeBorder: const CircleBorder(),
+              showcaseBackgroundColor: Colors.indigo,
+              descTextStyle: const TextStyle(
+                color: Colors.white,
+                fontSize: 16
+              ),
+              child: const Icon(Icons.add),
+              overlayPadding: const EdgeInsets.all(8),
+              contentPadding: const EdgeInsets.all(8)
+          ),
+
+      onPressed: () => {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => AddMovie()))
+          },
+        ),
     );
   }
 }

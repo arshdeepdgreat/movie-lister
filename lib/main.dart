@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movie_listing_app/boxes.dart';
 import 'package:movie_listing_app/model/movie.dart';
 import 'package:movie_listing_app/screens/movie_list.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -18,8 +19,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.indigo),
-      home: const Movielist(
-        title: "Movie List",
+      home: ShowCaseWidget(
+        builder: Builder(
+          builder: (context)=>const Movielist(title: "Movie List"),
+        ),
       ),
     );
   }
