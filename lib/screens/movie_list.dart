@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:movie_listing_app/screens/add_movie.dart';
 
 class Movielist extends StatefulWidget {
   final String title;
-  Movielist({Key? key, required this.title}) : super(key: key);
+  const Movielist({Key? key, required this.title}) : super(key: key);
 
   @override
   State<Movielist> createState() => _MovielistState();
@@ -18,13 +19,20 @@ class _MovielistState extends State<Movielist> {
       ),
       body: Container(
         child: ListView.builder(
-            itemCount: 6,
+            itemCount: 60,
             itemBuilder: (context, index) {
               // ignore: prefer_const_constructors
               return ListTile(
-                  title: const Text('Movie title'),
-                  subtitle: const Text('description'));
+                  title: Text('Movie title'), subtitle: Text('Director Name'));
             }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: "Add movie",
+        child: Icon(Icons.add),
+        onPressed: () => {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AddMovie()))
+        },
       ),
     );
   }
