@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_listing_app/model/movie.dart';
 import 'package:hive/hive.dart';
-import 'package:showcaseview/showcaseview.dart';
 import '../boxes.dart';
 
 class AddMovie extends StatefulWidget {

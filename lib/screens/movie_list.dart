@@ -15,7 +15,6 @@ class Movielist extends StatefulWidget {
 
 class _MovielistState extends State<Movielist> {
   final _key1=GlobalKey();
-  final _key2=GlobalKey();
 
   @override
   void dispose() {
@@ -42,7 +41,7 @@ class _MovielistState extends State<Movielist> {
         valueListenable: Hive.box<Movie>(HiveBoxes.movie).listenable(),
         builder: (context, Box<Movie> box, _) {
           if (box.values.isEmpty) {
-            return Center(
+            return const Center(
               child: Text("No movies Added"),
             );
           }
@@ -53,7 +52,7 @@ class _MovielistState extends State<Movielist> {
                 return Dismissible(
                     background: Container(
                       color: Colors.red,
-                      child: Icon(Icons.delete,
+                      child: const Icon(Icons.delete,
                           semanticLabel: "Swipe to Delete Movie"),
                     ),
                     key: UniqueKey(),
@@ -101,7 +100,7 @@ class _MovielistState extends State<Movielist> {
 
       onPressed: () => {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => AddMovie()))
+                context, MaterialPageRoute(builder: (context) => const AddMovie()))
           },
         ),
     );
