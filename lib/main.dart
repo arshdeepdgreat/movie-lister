@@ -7,7 +7,7 @@ import 'package:movie_listing_app/screens/movie_list.dart';
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(MovieAdapter());
-  await Hive.openBox<movie>()
+  await Hive.openBox<Movie>(HiveBoxes.movie);
   runApp(const MyApp());
 }
 

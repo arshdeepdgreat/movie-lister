@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:movie_listing_app/model/movie.dart';
+import 'package:hive/hive.dart';
+
+import '../boxes.dart';
 
 class AddMovie extends StatefulWidget {
   AddMovie({Key? key}) : super(key: key);
@@ -12,12 +16,16 @@ class _AddMovieState extends State<AddMovie> {
 
   validated() {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+      _onFormSubmit();
       print("Form Validated");
     } else {
       print("Form not validated");
       return;
     }
   }
+
+  late String movietitle;
+  late String directorname;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +45,9 @@ class _AddMovieState extends State<AddMovie> {
                 TextFormField(
                   autofocus: false,
                   decoration: InputDecoration(labelText: 'Movie Title'),
+                  onChanged: (value) {
+                    movietitle = value;
+                  },
                   validator: (String? value) {
                     if (value == null || value.trim().length == 0) {
                       return "Required";
@@ -47,6 +58,9 @@ class _AddMovieState extends State<AddMovie> {
                 TextFormField(
                   autofocus: false,
                   decoration: InputDecoration(labelText: 'Director Name'),
+                  onChanged: (value) {
+                    directorname = value;
+                  },
                   validator: (String? value) {
                     if (value == null || value.trim().length == 0) {
                       return "Required";
@@ -67,5 +81,12 @@ class _AddMovieState extends State<AddMovie> {
         ),
       ),
     );
+  }
+
+  void _onFormSubmit() {
+    Box<Movie> moviesBox = Hive.box<Movie>(HiveBoxes.movie);
+    moviesBox.add(Movie(directorname: directorname, movietitle: movietitle));
+    Navigator.of(context).pop();
+    print(moviesBox);
   }
 }

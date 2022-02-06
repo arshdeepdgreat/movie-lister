@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:movie_listing_app/boxes.dart';
+import 'package:movie_listing_app/model/movie.dart';
 import 'package:movie_listing_app/screens/add_movie.dart';
 
 class Movielist extends StatefulWidget {
@@ -12,6 +15,12 @@ class Movielist extends StatefulWidget {
 }
 
 class _MovielistState extends State<Movielist> {
+  @override
+  void dispose() {
+    Hive.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
