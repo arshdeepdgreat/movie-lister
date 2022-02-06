@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movie_listing_app/boxes.dart';
 import 'package:movie_listing_app/model/movie.dart';
 import 'package:movie_listing_app/screens/add_movie.dart';
@@ -28,22 +28,50 @@ class _MovielistState extends State<Movielist> {
         title: Text(widget.title),
         centerTitle: true,
       ),
-      body: Container(
-        child: ListView.builder(
-            itemCount: 6,
-            itemBuilder: (context, index) {
-              return Dismissible(
-                  background: Container(
-                    color: Colors.red,
-                    child: Icon(Icons.delete,
-                        semanticLabel: "Swipe to Delete Movie"),
-                  ),
-                  key: UniqueKey(),
-                  onDismissed: (direction) {},
-                  child: ListTile(
-                      title: Text('Movie title'),
-                      subtitle: Text('Director Name')));
-            }),
+      body: ValueListenableBuilder(
+        valueListenable: Hive.box<Movie>(HiveBoxes.movie).listenable(),
+        builder: (context, Box<Movie> box, _) {
+          if (box.values.isEmpty) {
+            return Center(
+              child: Text("No movies Added"),
+            );
+          }
+          return ListView.builder(
+              itemCount: box.values.length,
+              itemBuilder: (context, index) {
+                Movie? res = box.getAt(index);
+                return Dismissible(
+                    background: Container(
+                      color: Colors.red,
+                      child: Icon(Icons.delete,
+                          semanticLabel: "Swipe to Delete Movie"),
+                    ),
+                    key: UniqueKey(),
+                    onDismissed: (direction) {
+                      res!.delete();
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text('An movie has been deleted')));
+                    },
+                    child: ListTile(
+                      title: Text(res!.movietitle),
+                      subtitle: Text(res.directorname),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                res.delete();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                            Text('An movie has been deleted')));
+                              }),
+                        ],
+                      ),
+                    ));
+              });
+        },
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: "Add movie",

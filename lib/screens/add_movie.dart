@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:movie_listing_app/model/movie.dart';
 import 'package:hive/hive.dart';
-
 import '../boxes.dart';
 
 class AddMovie extends StatefulWidget {
-  AddMovie({Key? key}) : super(key: key);
-
+  const AddMovie({Key? key}) : super(key: key);
   @override
   State<AddMovie> createState() => _AddMovieState();
 }
@@ -17,9 +15,9 @@ class _AddMovieState extends State<AddMovie> {
   validated() {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       _onFormSubmit();
-      print("Form Validated");
+      //print("Form Validated");
     } else {
-      print("Form not validated");
+      //print("Form not validated");
       return;
     }
   }
@@ -31,25 +29,25 @@ class _AddMovieState extends State<AddMovie> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add a Movie'),
+        title: const Text('Add a Movie'),
         centerTitle: true,
       ),
       body: SafeArea(
         child: Form(
           key: _formKey,
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
                   autofocus: false,
-                  decoration: InputDecoration(labelText: 'Movie Title'),
+                  decoration: const InputDecoration(labelText: 'Movie Title'),
                   onChanged: (value) {
                     movietitle = value;
                   },
                   validator: (String? value) {
-                    if (value == null || value.trim().length == 0) {
+                    if (value == null || value.trim().isEmpty) {
                       return "Required";
                     }
                     return null;
@@ -57,12 +55,12 @@ class _AddMovieState extends State<AddMovie> {
                 ),
                 TextFormField(
                   autofocus: false,
-                  decoration: InputDecoration(labelText: 'Director Name'),
+                  decoration: const InputDecoration(labelText: 'Director Name'),
                   onChanged: (value) {
                     directorname = value;
                   },
                   validator: (String? value) {
-                    if (value == null || value.trim().length == 0) {
+                    if (value == null || value.trim().isEmpty) {
                       return "Required";
                     }
                     return null;
@@ -73,7 +71,7 @@ class _AddMovieState extends State<AddMovie> {
                       onPressed: () {
                         validated();
                       },
-                      child: Text('Add Movie')),
+                      child: const Text('Add Movie')),
                 )
               ],
             ),
@@ -87,6 +85,6 @@ class _AddMovieState extends State<AddMovie> {
     Box<Movie> moviesBox = Hive.box<Movie>(HiveBoxes.movie);
     moviesBox.add(Movie(directorname: directorname, movietitle: movietitle));
     Navigator.of(context).pop();
-    print(moviesBox);
+    //print(moviesBox);
   }
 }
