@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:movie_listing_app/screens/add_movie.dart';
 
@@ -19,11 +21,19 @@ class _MovielistState extends State<Movielist> {
       ),
       body: Container(
         child: ListView.builder(
-            itemCount: 60,
+            itemCount: 6,
             itemBuilder: (context, index) {
-              // ignore: prefer_const_constructors
-              return ListTile(
-                  title: Text('Movie title'), subtitle: Text('Director Name'));
+              return Dismissible(
+                  background: Container(
+                    color: Colors.red,
+                    child: Icon(Icons.delete,
+                        semanticLabel: "Swipe to Delete Movie"),
+                  ),
+                  key: UniqueKey(),
+                  onDismissed: (direction) {},
+                  child: ListTile(
+                      title: Text('Movie title'),
+                      subtitle: Text('Director Name')));
             }),
       ),
       floatingActionButton: FloatingActionButton(
